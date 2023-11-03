@@ -1,0 +1,11 @@
+AKIAV2EWMKBI5S5YSJ4Y  =======access key
+
+
+YogqtY9o1L1TR6X9AulqWQVpmUwSG9OAPo1Q5pyN  =====secert_key
+
+zone =====ap-south-1
+
+
+aws eks update-kubeconfig --region ap-south-1 --name my_cluster
+
+
