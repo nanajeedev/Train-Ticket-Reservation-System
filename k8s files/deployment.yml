@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: TrainBook
+  name: trainBook
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: Trainapp
+      app: trainapp
   template:
     metadata:
       labels:
-        app: Trainapp
+        app: trainapp
     spec:
       containers:
-      - name: Trainapp
+      - name: trainapp
         image: 3399747338321.dkr.ecr.ap-south-1.amazonaws.com/traintickets:v1.0.0
         ports:
         - containerPort: 8080
@@ -23,12 +23,12 @@ spec:
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: Trainapp
+  name: myhpa
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: Trainapp
+    name: trainapp
   minReplicas: 1
   maxReplicas: 3
   metrics:
