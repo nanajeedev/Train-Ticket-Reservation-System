@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: trainapp
-        image: 3399747338321.dkr.ecr.ap-south-1.amazonaws.com/traintickets:v1.0.0
+        image: 399747338321.dkr.ecr.ap-south-1.amazonaws.com/traintickets:v1.1.0
         ports:
         - containerPort: 8080
 
