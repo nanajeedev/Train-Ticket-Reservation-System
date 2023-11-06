@@ -18,7 +18,7 @@ pipeline{
         }
         stage('build docker image'){
             steps{
-                sh 'docker build -t traintickets:v1.0.0 .'
+                sh 'docker build -t traintickets:$NEW_VERSION  .'
             }
         }
         stage('login docker'){
@@ -28,12 +28,12 @@ pipeline{
         }
         stage('tag image'){
             steps{       
-            sh 'docker tag traintickets:v1.0.0 399747338321.dkr.ecr.ap-south-1.amazonaws.com/traintickets:v1.0.0'
+            sh 'docker tag traintickets:$NEW_VERSION  399747338321.dkr.ecr.ap-south-1.amazonaws.com/traintickets:$NEW_VERSION '
             }  
         }
         stage('Push image to registry'){
             steps{       
-            sh 'docker push 399747338321.dkr.ecr.ap-south-1.amazonaws.com/traintickets:v1.0.0'
+            sh 'docker push 399747338321.dkr.ecr.ap-south-1.amazonaws.com/traintickets:$NEW_VERSION '
             }  
         }
         stage('stop pervious container'){
@@ -44,7 +44,7 @@ pipeline{
         }
         stage('Image,run as container'){
             steps{       
-            sh 'docker run -itd --name ${imagename} -p 8084:8080 399747338321.dkr.ecr.ap-south-1.amazonaws.com/traintickets:v1.0.0'
+            sh 'docker run -itd --name ${imagename} -p 8084:8080 399747338321.dkr.ecr.ap-south-1.amazonaws.com/traintickets:$NEW_VERSION '
             }  
         }
     }
