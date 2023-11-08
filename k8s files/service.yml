@@ -4,7 +4,7 @@ metadata:
   name: mysvc
 spec:
   selector:
-    app: Trainapp
+    app: trainapp
   ports:
     - port: 80
       targetPort: 8080
