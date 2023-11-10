@@ -12,5 +12,14 @@ pipeline{
                 sh 'mvn test'
             }
         }
+        stage('sonar anylasis'){
+            steps{
+                script{
+                    withSonarQubeEnv(credentialsId: 'sonar') {
+                        sh 'mvn sonar:sonar'
+                   }
+                }
+            }
+        }
     }
 } 
