@@ -28,10 +28,24 @@ pipeline{
                 }
             }
         }
+        stage('Quality Gate') {
+            steps {
+                script {
+                    def qg = waitForQualityGate() // This step waits for the Quality Gate status
+
+                    // Check the status and act accordingly
+                    if (qg.status != 'OK') {
+                        error "Quality Gate failed: ${qg.status}"
+                    }
+                }
+            }
+        }
         stage('build docker image'){
             steps{
                 script {
+
                 sh 'docker build -t traintickets:${params.VERSION} .'
+
                 }
             }
         }
