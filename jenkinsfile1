@@ -24,14 +24,12 @@ pipeline{
         stage('Quality Gate') {
             steps {
                 script {
-                    def qg = waitForQualityGate() // This step waits for the Quality Gate status
-
-                    // Check the status and act accordingly
-                    if (qg.status != 'OK') {
-                        error "Quality Gate failed: ${qg.status}"
-                    }
+                     def qualityGate = waitForQualityGate()
+                    if (qualityGate.status != 'OK') {
+                        error "Pipeline aborted due to quality gate failure: ${qualityGate.status}"
+                   }
                 }
-            }
-        }
+           }
+       }
     }
 } 
