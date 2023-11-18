@@ -1,5 +1,8 @@
 pipeline{
     agent any
+    parameters {
+        string(name: 'VERSION', defaultValue: '1.0')
+    }
     environment{
         registry = '399747338321.dkr.ecr.ap-south-1.amazonaws.com/traintickets'
         imagename = 'Traintickets'
@@ -16,9 +19,18 @@ pipeline{
                 sh 'mvn test'
             }
         }
+        stage('sonar anylasis'){
+            steps{
+                script{
+                    withSonarQubeEnv(credentialsId: 'sonar') {
+                        sh 'mvn sonar:sonar'
+                   }
+                }
+            }
+        }
         stage('build docker image'){
             steps{
-                sh 'docker build -t traintickets:${BUILD_NUMBER} .'
+                sh 'docker build -t traintickets:${params.VERSION} .'
             }
         }
         stage('login docker'){
@@ -28,12 +40,12 @@ pipeline{
         }
         stage('tag image'){
             steps{       
-            sh 'docker tag traintickets:${BUILD_NUMBER} 399747338321.dkr.ecr.ap-south-1.amazonaws.com/traintickets:${BUILD_NUMBER}'
+            sh 'docker tag traintickets:${params.VERSION} 399747338321.dkr.ecr.ap-south-1.amazonaws.com/traintickets:${params.VERSION}'
             }  
         }
         stage('Push image to registry'){
             steps{       
-            sh 'docker push 399747338321.dkr.ecr.ap-south-1.amazonaws.com/traintickets:${BUILD_NUMBER}'
+            sh 'docker push 399747338321.dkr.ecr.ap-south-1.amazonaws.com/traintickets:${params.VERSION}'
             }  
         }
         stage('stop pervious container'){
@@ -44,7 +56,7 @@ pipeline{
         }
         stage('Image,run as container'){
             steps{       
-            sh 'docker run -itd --name ${imagename} -p 8084:8080 399747338321.dkr.ecr.ap-south-1.amazonaws.com/traintickets:${BUILD_NUMBER}'
+            sh 'docker run -itd --name ${imagename} -p 8084:8080 399747338321.dkr.ecr.ap-south-1.amazonaws.com/traintickets:${params.VERSION}'
             }  
         }
     }
