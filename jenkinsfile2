@@ -1,0 +1,19 @@
+pipeline {
+    agent any
+
+    parameters {
+        string(name: 'VERSION', defaultValue: '1.0', description: 'Enter the version number')
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    // Your build steps here
+                    echo "Building version ${params.VERSION}"
+                    // You can use params.VERSION in your build commands or scripts
+                }
+            }
+        }
+    }
+}
