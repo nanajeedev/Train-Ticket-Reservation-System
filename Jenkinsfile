@@ -34,7 +34,7 @@ pipeline{
             steps{
                 script {
 
-                sh 'docker build -t traintickets:${params.VERSION} .'
+                sh "docker build -t traintickets:${params.VERSION} ."
 
                 }
             }
@@ -46,12 +46,12 @@ pipeline{
         }
         stage('tag image'){
             steps{       
-            sh 'docker tag traintickets:${params.VERSION} 153519930658.dkr.ecr.us-east-1.amazonaws.com/traintickets:${params.VERSION}'
+            sh "docker tag traintickets:${params.VERSION} 153519930658.dkr.ecr.us-east-1.amazonaws.com/traintickets:${params.VERSION}"
             }  
         }
         stage('Push image to registry'){
             steps{       
-            sh 'docker push 153519930658.dkr.ecr.us-east-1.amazonaws.com/traintickets:${params.VERSION}'
+            sh "docker push 153519930658.dkr.ecr.us-east-1.amazonaws.com/traintickets:${params.VERSION}"
             }  
         }
         stage('stop pervious container'){
@@ -62,7 +62,7 @@ pipeline{
         }
         stage('Image,run as container'){
             steps{       
-            sh 'docker run -itd --name ${imagename} -p 8084:8080 153519930658.dkr.ecr.us-east-1.amazonaws.com/traintickets:${params.VERSION}'
+            sh "docker run -itd --name ${imagename} -p 8084:8080 153519930658.dkr.ecr.us-east-1.amazonaws.com/traintickets:${params.VERSION}"
             }  
         }
     }
