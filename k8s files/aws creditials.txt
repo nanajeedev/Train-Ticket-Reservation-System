@@ -11,4 +11,4 @@ aws eks update-kubeconfig --region ap-south-1 --name my_cluster
 
 
 
-squ_b7b3a51fcc97b046b5b6f7a9d82d0509f448eae4  
+squ_36bfdc125c2eb789f0da92ebfb2fa04fb1cad434  

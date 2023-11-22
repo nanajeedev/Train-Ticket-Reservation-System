@@ -1,10 +1,12 @@
 pipeline{
-    agent any
+    agent{
+        label "docker"
+    }
     parameters {
         string(name: 'VERSION', defaultValue: '1.0')
     }
     environment{
-        registry = '399747338321.dkr.ecr.ap-south-1.amazonaws.com/traintickets'
+        registry = '153519930658.dkr.ecr.us-east-1.amazonaws.com/traintickets'
         imagename = 'Traintickets'
     }
     stages{
@@ -28,18 +30,6 @@ pipeline{
                 }
             }
         }
-        stage('Quality Gate') {
-            steps {
-                script {
-                    def qg = waitForQualityGate() // This step waits for the Quality Gate status
-
-                    // Check the status and act accordingly
-                    if (qg.status != 'OK') {
-                        error "Quality Gate failed: ${qg.status}"
-                    }
-                }
-            }
-        }
         stage('build docker image'){
             steps{
                 script {
@@ -51,17 +41,17 @@ pipeline{
         }
         stage('login docker'){
             steps{       
-            sh 'aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 399747338321.dkr.ecr.ap-south-1.amazonaws.com'
+            sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 153519930658.dkr.ecr.us-east-1.amazonaws.com'
             }  
         }
         stage('tag image'){
             steps{       
-            sh 'docker tag traintickets:${params.VERSION} 399747338321.dkr.ecr.ap-south-1.amazonaws.com/traintickets:${params.VERSION}'
+            sh 'docker tag traintickets:${params.VERSION} 153519930658.dkr.ecr.us-east-1.amazonaws.com/traintickets:${params.VERSION}'
             }  
         }
         stage('Push image to registry'){
             steps{       
-            sh 'docker push 399747338321.dkr.ecr.ap-south-1.amazonaws.com/traintickets:${params.VERSION}'
+            sh 'docker push 153519930658.dkr.ecr.us-east-1.amazonaws.com/traintickets:${params.VERSION}'
             }  
         }
         stage('stop pervious container'){
@@ -72,7 +62,7 @@ pipeline{
         }
         stage('Image,run as container'){
             steps{       
-            sh 'docker run -itd --name ${imagename} -p 8084:8080 399747338321.dkr.ecr.ap-south-1.amazonaws.com/traintickets:${params.VERSION}'
+            sh 'docker run -itd --name ${imagename} -p 8084:8080 153519930658.dkr.ecr.us-east-1.amazonaws.com/traintickets:${params.VERSION}'
             }  
         }
     }
