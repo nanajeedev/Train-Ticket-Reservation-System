@@ -6,5 +6,10 @@ pipeline {
             echo "Hai this nani"
             }
         }
+    stage ("Build mvn packages") {
+        steps {
+            sh "mvn clean install"
+            }
+        }
     }  
 }
