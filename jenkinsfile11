@@ -11,5 +11,12 @@ pipeline {
             sh "mvn clean install"
             }
         }
+    stage ("deploye to tomcat") {
+        steps {
+            sshagent(['dep-tomcat']) {
+                sh "scp -o StrictHostKeyChecking=no target/TrainBook-1.0.0-SNAPSHOT.war ubuntu@13.233.190.235:/opt/tomcat/webapps"
+                }
+            }
+        }   
     }  
 }
