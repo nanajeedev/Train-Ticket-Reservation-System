@@ -1,0 +1,10 @@
+pipeline {
+    agent any
+    stages {
+        stage ("git clone") {
+            steps {
+              git branch: 'dev', credentialsId: 'jenkins-id', url: 'https://github.com/nanajeedev/Train-Ticket-Reservation-System.git'
+            }
+        }
+    }
+} 
